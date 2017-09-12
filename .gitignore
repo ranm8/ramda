@@ -9,3 +9,7 @@
 /dist/gh-pages/
 /tmp-test-bundle.js
 /coverage/
+
+# Bit
+components/
+.bit/
