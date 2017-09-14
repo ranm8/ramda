@@ -1,13 +1,13 @@
 var assert = require('assert');
 var vm = require('vm');
 
-var R = require('..');
+var invoker = require('../src/invoker');
 var eq = require('./shared/eq');
 
 
 describe('invoker', function() {
 
-  var concat2 = R.invoker(2, 'concat');
+  var concat2 = invoker(2, 'concat');
 
   it('returns a function with correct arity', function() {
     eq(concat2.length, 3);
@@ -19,21 +19,21 @@ describe('invoker', function() {
 
   it('throws a descriptive TypeError if method does not exist', function() {
     assert.throws(
-      function() { R.invoker(0, 'foo')(null); },
+      function() { invoker(0, 'foo')(null); },
       function(err) {
         return err.constructor === TypeError &&
                err.message === 'null does not have a method named "foo"';
       }
     );
     assert.throws(
-      function() { R.invoker(0, 'foo')([1, 2, 3]); },
+      function() { invoker(0, 'foo')([1, 2, 3]); },
       function(err) {
         return err.constructor === TypeError &&
                err.message === '[1, 2, 3] does not have a method named "foo"';
       }
     );
     assert.throws(
-      function() { R.invoker(0, 'length')([1, 2, 3]); },
+      function() { invoker(0, 'length')([1, 2, 3]); },
       function(err) {
         return err.constructor === TypeError &&
                err.message === '[1, 2, 3] does not have a method named "length"';

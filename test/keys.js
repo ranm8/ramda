@@ -1,6 +1,7 @@
-var R = require('..');
 var eq = require('./shared/eq');
-
+const keys = require('../src/keys');
+const map = require('../src/map');
+const repeat = require('../src/repeat');
 
 describe('keys', function() {
   var obj = {a: 100, b: [1, 2, 3], c: {x: 200, y: 300}, d: 'D', e: null, f: undefined};
@@ -10,24 +11,24 @@ describe('keys', function() {
   var cobj = new C();
 
   it("returns an array of the given object's own keys", function() {
-    eq(R.keys(obj).sort(), ['a', 'b', 'c', 'd', 'e', 'f']);
+    eq(keys(obj).sort(), ['a', 'b', 'c', 'd', 'e', 'f']);
   });
 
   it('works with hasOwnProperty override', function() {
-    eq(R.keys({
+    eq(keys({
       hasOwnProperty: false
     }), ['hasOwnProperty']);
   });
 
   it('works for primitives', function() {
-    var result = R.map(function(val) {
-      return R.keys(val);
+    var result = map(function(val) {
+      return keys(val);
     }, [null, undefined, 55, '', true, false, NaN, Infinity, , []]);
-    eq(result, R.repeat([], 10));
+    eq(result, repeat([], 10));
   });
 
   it("does not include the given object's prototype properties", function() {
-    eq(R.keys(cobj).sort(), ['a', 'b']);
+    eq(keys(cobj).sort(), ['a', 'b']);
   });
 
 });
